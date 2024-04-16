@@ -9,6 +9,8 @@ interface MyContextValue {
     selectedDistricts: string[];
     setSelectedDistricts: Dispatch<SetStateAction<string[]>>;
     selectedProjects: string[];
+    heatMapSelectedProject: string;
+    setHeatMapSelectedProject: Dispatch<SetStateAction<string>>;
     setSelectedProjects: Dispatch<SetStateAction<string[]>>;
 }
 
@@ -18,6 +20,8 @@ export const MyContext = createContext<MyContextValue>({
     setSelectedType: () => {},
     selectedDistricts: [],
     setSelectedDistricts: () => {},
+    heatMapSelectedProject: '',
+    setHeatMapSelectedProject: () => {},
     selectedProjects: [],
     setSelectedProjects: () => {},
 });
@@ -27,6 +31,7 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
     const [selectedDistricts, setSelectedDistricts] = useState<string[]>([]);
     const [selectedType, setSelectedType] = useState<PropertyType>(PropertyType.ALL);
+    const [heatMapSelectedProject, setHeatMapSelectedProject] = useState<string>('');
 
     // Provide the context value to children
     const contextValue: MyContextValue = {
@@ -34,6 +39,8 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         setSelectedType,
         selectedDistricts,
         setSelectedDistricts,
+        heatMapSelectedProject,
+        setHeatMapSelectedProject,
         selectedProjects,
         setSelectedProjects,
     };

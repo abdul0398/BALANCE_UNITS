@@ -2,6 +2,7 @@ import { MyContext } from "@/context/context"
 import { projects } from "@/data/data"
 import { useContext, useState } from "react"
 import { districtRelation , segmentRelation} from "@/data/relations"
+import { projectRelation } from "@/data/projectListingRelation"
 
 
 export default function Projects() {
@@ -38,7 +39,12 @@ export default function Projects() {
     }
 
     filteredProjects = filteredProjects.filter((project) => {
-        return project.toLowerCase().includes(searchQuery.toLowerCase())
+         const isMatch = project.toLowerCase().includes(searchQuery.toLowerCase());
+         const isAvailable = projectRelation[project][projectRelation[project].length - 1].unitsAvail - projectRelation[project][projectRelation[project].length - 1].soldToDate != 0;
+
+            return isMatch && isAvailable;
+
+
     })
 
     return (

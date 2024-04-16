@@ -10,6 +10,7 @@ export default function Home() {
   const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
   const [selectedDistricts, setSelectedDistricts] = useState<string[]>([]);
   const [selectedType, setSelectedType] = useState<PropertyType>(PropertyType.ALL);
+  const [heatMapSelectedProject, setHeatMapSelectedProject] = useState<string>('');
 
   
 
@@ -18,7 +19,7 @@ export default function Home() {
       <section>
         <h2 className="text-2xl text-center">URA Developer Sales Data (Balance Units)</h2>
       </section>
-      <MyContext.Provider value={{selectedDistricts, selectedProjects, selectedType, setSelectedType, setSelectedDistricts, setSelectedProjects}}>
+      <MyContext.Provider value={{selectedDistricts, selectedProjects, selectedType, heatMapSelectedProject, setHeatMapSelectedProject, setSelectedType, setSelectedDistricts, setSelectedProjects}}>
         <Dashboard />
       </MyContext.Provider >
     </main>

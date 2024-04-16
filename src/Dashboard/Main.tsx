@@ -9,9 +9,25 @@ import Projects from "./Projects/Main";
 import PropertyType from "./PropertyType/Main";
 import BalanceUnits from "./BalanceUnits/Main";
 import TableDistricts from "./TableDistricts/Main";
-
+import { projectRelation } from "@/data/projectListingRelation";
 
 export default function Dashboard() {
+
+
+    const projects = Object.keys(projectRelation).filter((project) => {
+        const isAvailable = projectRelation[project][projectRelation[project].length - 1].unitsAvail - projectRelation[project][projectRelation[project].length - 1].soldToDate != 0;
+        return isAvailable;
+    });
+     const demoData = {
+        name: 'root',
+        children: projects.map((project) => {
+            return {
+                name: project,
+                value: projectRelation[project][projectRelation[project].length - 1].unitsAvail - projectRelation[project][projectRelation[project].length - 1].soldToDate,
+            };
+        }),
+        value:100
+      };
     return (
         <main className="w-[1200px] h-full mx-auto mt-2 bg-[#f3f4f6] p-3">
             <section className="h-[400px] w-full mt-5 flex flex-row">
@@ -52,9 +68,9 @@ export default function Dashboard() {
                 </div>
             </section>
             <section className="h-[600px] w-full mt-10 flex gap-1">
-                <div className="h-full w-1/2">
+                <div className="h-full w-1/2 overflow-x-auto" >
                     <h2 className="text-center">Heat Map of Balance Units</h2>
-                    <Treemap />
+                    <Treemap data={demoData} width={900} height={900} />
                 </div>
                 <div className="h-full w-1/2">
                     <h2 className="text text-center">Filter By Districts</h2>
