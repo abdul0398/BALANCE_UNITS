@@ -16,9 +16,7 @@ export default function Home() {
 
   return (
     <main className="w-full h-full pt-12">
-      <section>
-        <h2 className="text-2xl text-center">URA Developer Sales Data (Balance Units)</h2>
-      </section>
+    
       <MyContext.Provider value={{selectedDistricts, selectedProjects, selectedType, heatMapSelectedProject, setHeatMapSelectedProject, setSelectedType, setSelectedDistricts, setSelectedProjects}}>
         <Dashboard />
       </MyContext.Provider >
