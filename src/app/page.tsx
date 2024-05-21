@@ -1,25 +1,34 @@
-'use client'
+"use client";
 import { MyContext } from "@/context/context";
 import Dashboard from "../Dashboard/Main";
-import {useState } from "react";
-import { PropertyType } from "@/types/context";
-
-
+import { useState } from "react";
+import { PropertyTypeEnum } from "@/types/context";
 
 export default function Home() {
-  const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
-  const [selectedDistricts, setSelectedDistricts] = useState<string[]>([]);
-  const [selectedType, setSelectedType] = useState<PropertyType>(PropertyType.ALL);
-  const [heatMapSelectedProject, setHeatMapSelectedProject] = useState<string>('');
-
-  
+  const [selectedProject, setSelectedProject] = useState<string>("");
+  const [selectedDistrict, setSelectedDistrict] = useState<string>("");
+  const [selectedType, setSelectedType] = useState<PropertyTypeEnum>(
+    PropertyTypeEnum.ALL
+  );
+  const [heatMapSelectedProject, setHeatMapSelectedProject] =
+    useState<string>("");
 
   return (
-    <main className="w-full h-full pt-12">
-    
-      <MyContext.Provider value={{selectedDistricts, selectedProjects, selectedType, heatMapSelectedProject, setHeatMapSelectedProject, setSelectedType, setSelectedDistricts, setSelectedProjects}}>
+    <main className="w-full h-full">
+      <MyContext.Provider
+        value={{
+          selectedDistrict,
+          selectedProject,
+          selectedType,
+          heatMapSelectedProject,
+          setHeatMapSelectedProject,
+          setSelectedType,
+          setSelectedDistrict,
+          setSelectedProject,
+        }}
+      >
         <Dashboard />
-      </MyContext.Provider >
+      </MyContext.Provider>
     </main>
   );
 }

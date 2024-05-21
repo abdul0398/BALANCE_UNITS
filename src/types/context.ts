@@ -1,4 +1,4 @@
-export enum PropertyType {
+export enum PropertyTypeEnum {
     OCR = "OCR",
     RCR = "RCR",
     CCR = "CCR",
@@ -11,8 +11,8 @@ export enum PropertyType {
 
 
 export interface MyContextValue {
-    selectedType: PropertyType;
-    setSelectedType: React.Dispatch<React.SetStateAction<PropertyType>>;
+    selectedType: PropertyTypeEnum;
+    setSelectedType: React.Dispatch<React.SetStateAction<PropertyTypeEnum>>;
     selectedDistricts: string[];
     setSelectedDistricts: React.Dispatch<React.SetStateAction<string[]>>;
     selectedProjects: string[];

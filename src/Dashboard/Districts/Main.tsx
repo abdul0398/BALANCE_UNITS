@@ -1,71 +1,51 @@
-import { MyContext } from "@/context/context"
-import { districts } from "@/data/data"
-import { useContext, useState } from "react"
-import { projectRelation, segmentRelation } from "@/data/relations"
-
-
+import { MyContext } from "@/context/context";
+import { districts } from "@/data/data";
+import { useContext, useState } from "react";
+import { projectRelation, segmentRelation } from "@/data/relations";
+import WindowedSelect from "react-windowed-select";
+import { customStyles } from "@/styles/select";
 
 export default function Districts() {
-    const { selectedDistricts, selectedProjects, setSelectedDistricts, selectedType } = useContext(MyContext)
-    const [searchQuery, setSearchQuery] = useState("")
-    let filteredDistricts = districts;
-    if (selectedProjects.length > 0) {
-        filteredDistricts = districts.filter((district) => {
-            return selectedProjects.some((project) => {
-                return projectRelation[project].includes(district);
-            });
-        });
-    }
+  const {
+    selectedDistrict,
+    selectedProject,
+    setSelectedDistrict,
+    selectedType,
+  } = useContext(MyContext);
+  let filteredDistricts = districts;
+  if (selectedProject) {
+    filteredDistricts = districts.filter((district) => {
+      return projectRelation[selectedProject].includes(district);
+    });
+  }
 
-    if (selectedType !== "ALL") {
-        filteredDistricts = filteredDistricts.filter((district) => {
-            return segmentRelation[selectedType].districts.includes(district);
-        });
-    }
-
-
-    const onCheckboxChange = (district: string, checked: boolean) => {
-        if (checked) {
-            setSelectedDistricts([...selectedDistricts, district])
-        } else {
-            setSelectedDistricts(selectedDistricts.filter((selectedDistrict) => selectedDistrict !== district))
-        }
-    }
-
+  if (selectedType !== "ALL") {
     filteredDistricts = filteredDistricts.filter((district) => {
-        return district.toLowerCase().includes(searchQuery.toLowerCase())
-    })
+      return segmentRelation[selectedType].districts.includes(district);
+    });
+  }
 
+  const handleSelect = (event: any) => {
+    setSelectedDistrict(event.value);
+  };
 
+  const options = filteredDistricts.map((district) => {
+    return { value: district, label: district };
+  });
 
-    return (
-        <section className="overflow-y-auto overflow-x-hidden h-[90%]">
-            <div className="h-full bg-white overflow-auto min-w-[150px]">
-                <input
-                    type="text"
-
-                    className="mb-2 w-full h-3 border-0 rounded-none focus:outline-none px-3 py-1 text-sm"
-                    placeholder="Search"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <div className="pb-1 px-2 text-xsm">
-                    {
-                        filteredDistricts.map((district, index) => {
-                            return (
-                                <div key={index} className="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        onChange={(e) => onCheckboxChange(district, e.target.checked)}
-                                        className="mr-2"
-                                    />
-                                    <p className="ms-1 text-xs text-slate-600 ">D{district.length > 10 ? district.substring(0, 10) + "..." : district} { }</p>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-            </div>
-        </section>
-    )
+  return (
+    <WindowedSelect
+      placeholder="Select Distict"
+      options={options}
+      value={
+        selectedDistrict
+          ? { value: selectedDistrict, label: selectedDistrict }
+          : null
+      }
+      windowThreshold={50}
+      styles={customStyles}
+      menuPortalTarget={document.querySelector("body")}
+      onChange={(e: any) => handleSelect(e)}
+    />
+  );
 }

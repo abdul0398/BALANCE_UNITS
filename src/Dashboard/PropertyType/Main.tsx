@@ -1,67 +1,64 @@
-import { Button } from "@/components/ui/button";
 import { MyContext } from "@/context/context";
 import { useContext } from "react";
 import { data } from "@/data/data";
-import { PropertyType } from "@/types/context";
+import { PropertyTypeEnum } from "@/types/context";
+import WindowedSelect from "react-windowed-select";
+import { customStyles } from "@/styles/select";
 
-export default function PropertyTypeComponent() {
-    const { selectedType, setSelectedType, selectedDistricts, selectedProjects, setSelectedDistricts, setSelectedProjects } = useContext(MyContext);
+export default function PropertyTypeEnumComponent() {
+  const { selectedType, setSelectedType, selectedDistrict, selectedProject } =
+    useContext(MyContext);
 
-    // Initialize filtered types with CCR, OCR, and RCR
-    let filteredType: string[] = [PropertyType.CCR, PropertyType.OCR, PropertyType.RCR];
-    let typeSet = new Set<string>();
+  // Initialize filtered types with CCR, OCR, and RCR
+  let filteredType: string[] = [
+    PropertyTypeEnum.CCR,
+    PropertyTypeEnum.OCR,
+    PropertyTypeEnum.RCR,
+  ];
+  let typeSet = new Set<string>();
 
-    data.forEach((item: any) => {
-        if (selectedDistricts.includes(item.district) || selectedProjects.includes(item.project)) {
-            typeSet.add(item.marketSegment);
-        }
-    });
-
-    // If selectedDistricts, selectedProjects, and selectedType are set and selectedType is not "ALL",
-    // update filteredType to include all unique market segments
-    console.log(typeSet);
-    if (selectedDistricts.length !== 0 || selectedProjects.length !== 0) {
-        filteredType = Array.from(typeSet);
+  data.forEach((item: any) => {
+    if (selectedDistrict == item.district || selectedProject == item.project) {
+      typeSet.add(item.marketSegment);
     }
+  });
 
-    const handleReset = () => {
-        setSelectedType(PropertyType.ALL);
-        setSelectedDistricts([]);
-        setSelectedProjects([]);
+  if (selectedDistrict !== "" || selectedProject !== "") {
+    filteredType = Array.from(typeSet);
+  }
+
+  // Handle button click event
+  const handleSelect = (event: any) => {
+    const value = event.value;
+    const enumValue = PropertyTypeEnum[value as keyof typeof PropertyTypeEnum];
+
+    if (enumValue) {
+      if (selectedType == enumValue) {
+        setSelectedType(PropertyTypeEnum.ALL);
+      } else {
+        setSelectedType(enumValue);
+      }
+    } else {
+      console.error(`Invalid value: ${value}`);
+    }
+  };
+
+  const options = filteredType.map((item) => {
+    return {
+      value: item,
+      label: item,
     };
+  });
 
-    // Handle button click event
-    const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-
-        const value = event.currentTarget.textContent || ""; // Get button text content
-        const enumValue = PropertyType[value as keyof typeof PropertyType];
-        
-        if (enumValue) {
-            if (selectedType == enumValue) {
-                setSelectedType(PropertyType.ALL);
-            } else {
-                setSelectedType(enumValue);
-            }
-        } else {
-            console.error(`Invalid value: ${value}`);
-        }
-    };
-   
-    return (
-        <div className="flex flex-row pt-5">
-            <div className="flex flex-row justify-between w-1/2 px-2">
-                {filteredType.map((item: string) => (
-                    <Button key={item} onClick={handleButtonClick} variant={selectedType === item ? 'default' : 'outline'}>
-                        {item}
-                    </Button>
-                ))}
-            </div>
-            <div className="w-fit mx-auto">
-                <Button variant="outline" onClick={handleReset}>
-                    Reset
-                </Button>
-            </div>
-        </div>
-    );
+  return (
+    <WindowedSelect
+      placeholder="Select Region"
+      options={options}
+      value={selectedType ? { value: selectedType, label: selectedType } : null}
+      windowThreshold={50}
+      styles={customStyles}
+      menuPortalTarget={document.querySelector("body")}
+      onChange={(e: any) => handleSelect(e)}
+    />
+  );
 }
-
