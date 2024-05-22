@@ -34,18 +34,20 @@ export default function Districts() {
   });
 
   return (
-    <WindowedSelect
-      placeholder="Select Distict"
-      options={options}
-      value={
-        selectedDistrict
-          ? { value: selectedDistrict, label: selectedDistrict }
-          : null
-      }
-      windowThreshold={50}
-      styles={customStyles}
-      menuPortalTarget={document.querySelector("body")}
-      onChange={(e: any) => handleSelect(e)}
-    />
+    <div className="w-45">
+      <WindowedSelect
+        placeholder="Select Distict"
+        options={options}
+        value={
+          selectedDistrict
+            ? { value: selectedDistrict, label: selectedDistrict }
+            : null
+        }
+        windowThreshold={50}
+        styles={customStyles}
+        menuPortalTarget={document.querySelector("body")}
+        onChange={(e: any) => handleSelect(e)}
+      />
+    </div>
   );
 }

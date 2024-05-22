@@ -10,7 +10,7 @@ export default function FilterBox({
   icon: JSX.Element;
 }) {
   return (
-    <div className="min-w-72 border h-full bg-[#ededed] rounded-xl shadow-l">
+    <div className="border h-full bg-[#ededed] rounded-xl shadow-l">
       <div className="relative w-full h-1/2">
         <div className="absolute flex justify-center items-center w-12 rounded-lg h-12 border top-[-10px] left-5 bg-[#0e4884]">
           {icon}
@@ -21,7 +21,7 @@ export default function FilterBox({
         </div>
       </div>
       <hr className="border-1 border-white" />
-      <div className="w-full pb-0 p-4 overflow-visible">{select}</div>
+      <div className="w-full pb-0 lg:p-4 md:p-4 overflow-visible">{select}</div>
     </div>
   );
 }

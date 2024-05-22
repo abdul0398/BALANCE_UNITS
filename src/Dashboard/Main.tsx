@@ -15,6 +15,9 @@ import { FaStreetView } from "react-icons/fa";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { SiCodeblocks } from "react-icons/si";
 import { PropertyTypeEnum } from "@/types/context";
+import { useMediaQuery } from "react-responsive";
+import { IoMenu } from "react-icons/io5";
+
 import dynamic from "next/dynamic";
 const Districts = dynamic(() => import("./Districts/Main"), { ssr: false });
 const Projects = dynamic(() => import("./Projects/Main"), { ssr: false });
@@ -24,6 +27,8 @@ const PropertyType = dynamic(() => import("./PropertyType/Main"), {
 
 export default function Dashboard() {
   const [selectedView, setSelectedView] = useState<string>("project_table");
+  const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
+  const [isOpen, setIsOpen] = useState<boolean>(!isMobile);
   const {
     selectedDistrict,
     selectedProject,
@@ -78,6 +83,9 @@ export default function Dashboard() {
     setSelectedDistrict("");
     setSelectedProject("");
   };
+  const sideBarHandler = () => {
+    setIsOpen(!isOpen);
+  };
 
   const slideLeft = () => {
     const slider = document.querySelector(".filter-slider") as HTMLElement;
@@ -91,132 +99,130 @@ export default function Dashboard() {
 
   return (
     <div className="h-full w-full flex justify-center items-center">
-      <div className="w-[90%] flex h-[90%]">
-        <Sidebar
-          selectedView={selectedView}
-          setSelectedView={setSelectedView}
-        />
-        <main
-          id="main-container"
-          className="sm:w-5/6 w-full rounded-r-3xl ms-auto border  overflow-auto lg:p-2 shadow-md"
-        >
-          <div className="relative h-14">
-            <Button
-              variant="default"
-              className="me-2 bg-[#0e4884] hover:bg-[#0e4884] absolute right-1 top-5"
-              onClick={handleReset}
-            >
-              Reset
-            </Button>
+      {isMobile && (
+        <div className="h-48 w-full">
+          <div className="fixed top-0 right-0 opacity-50 z-50">
+            <IoMenu size={40} onClick={sideBarHandler} />
           </div>
-          <section className="flex flex-col justify-center">
-            <div className="filter-slider h-48 mt-10 flex gap-8 overflow-x-scroll scroll-smooth mx-auto whitespace-nowrap justify-between w-[90%] p-2 no-scrollbar rounded-md">
-              <FilterBox
-                select={<Districts />}
-                name="District"
-                selected={selectedDistrict}
-                icon={<SiCodeblocks className="text-2xl text-white" />}
-              />
-              <FilterBox
-                select={<Projects />}
-                name="Project"
-                selected={selectedProject}
-                icon={<SiCodeblocks className="text-2xl text-white" />}
-              />
-              <FilterBox
-                select={<PropertyType />}
-                name="Region"
-                selected={selectedType}
-                icon={<FaStreetView className="text-2xl text-white" />}
-              />
+        </div>
+      )}
+      <div className="h-full w-full flex justify-center items-center p-4">
+        <div className="w-[100%] flex h-[100%]">
+          <Sidebar
+            selectedView={selectedView}
+            setSelectedView={setSelectedView}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            isMobile={isMobile}
+          />
+          <main
+            id="main-container"
+            className="w-full rounded-r-3xl ms-auto border overflow-auto lg:p-2 shadow-md"
+          >
+            <div className="relative h-14">
+              <Button
+                variant="default"
+                className="me-2 bg-[#0e4884] hover:bg-[#0e4884] absolute right-1 top-5"
+                onClick={handleReset}
+              >
+                Reset
+              </Button>
             </div>
-            <div className="text-center flex justify-center gap-2 mt-3">
-              <div className="rounded-full h-8 w-8 flex justify-center items-center bg-[#0e4884]">
-                <MdChevronLeft
-                  onClick={() => {
-                    slideRight();
-                  }}
-                  className=" text-2xl cursor-pointer mx-auto text-white"
+            <section>
+              <div className="filter-slider lg:h-48 h-[400px] mt-10 grid lg:grid-cols-4 lg:gap-4 md:gap-2 gap-3 mx-auto grid-cols-2 lg:w-[90%] md:w-[90%] w-[98%] p-2 rounded-md">
+                <FilterBox
+                  select={<Districts />}
+                  name="District"
+                  selected={selectedDistrict}
+                  icon={<SiCodeblocks className="text-2xl text-white" />}
+                />
+                <FilterBox
+                  select={<Projects />}
+                  name="Project"
+                  selected={selectedProject}
+                  icon={<SiCodeblocks className="text-2xl text-white" />}
+                />
+                <FilterBox
+                  select={<PropertyType />}
+                  name="Region"
+                  selected={selectedType}
+                  icon={<FaStreetView className="text-2xl text-white" />}
                 />
               </div>
-              <div className="rounded-full h-8 w-8 flex justify-center items-center bg-[#0e4884]">
-                <MdChevronRight
-                  onClick={() => {
-                    slideLeft();
-                  }}
-                  className="text-2xl cursor-pointer text-white"
-                />
+            </section>
+
+            <section className="w-[90%] overflow-x-auto mx-auto border h-[700px] pb-3 mt-10 rounded-xl">
+              <div className="min-w-[900px] w-full">
+                <div className="bg-[#0e4884] w-full h-14 rounded-t-xl flex items-center ps-3">
+                  <Button
+                    onClick={() => setSelectedView("project_table")}
+                    variant="outline"
+                    className={`font-bold mx-3 bg-[#0c3f74] text-white ${
+                      selectedView == "project_table"
+                        ? "bg-white text-black"
+                        : ""
+                    }`}
+                  >
+                    Project Table
+                  </Button>
+                  <Button
+                    onClick={() => setSelectedView("district_table")}
+                    variant="outline"
+                    className={`font-bold mx-3 bg-[#0c3f74] text-white ${
+                      selectedView == "district_table"
+                        ? "bg-white text-black"
+                        : ""
+                    }`}
+                  >
+                    District Table
+                  </Button>
+
+                  <Button
+                    onClick={() => setSelectedView("balance_units")}
+                    variant="outline"
+                    className={`font-bold mx-3 bg-[#0c3f74] text-white ${
+                      selectedView == "balance_units"
+                        ? "bg-white text-black"
+                        : ""
+                    }`}
+                  >
+                    Balance Units
+                  </Button>
+                  <Button
+                    onClick={() => setSelectedView("map")}
+                    variant="outline"
+                    className={`font-bold mx-3 bg-[#0c3f74] text-white ${
+                      selectedView == "map" ? "bg-white text-black" : ""
+                    }`}
+                  >
+                    Map
+                  </Button>
+                  <Button
+                    onClick={() => setSelectedView("pie")}
+                    variant="outline"
+                    className={`font-bold mx-3 bg-[#0c3f74] text-white ${
+                      selectedView == "pie" ? "bg-white text-black" : ""
+                    }`}
+                  >
+                    Pie Chart
+                  </Button>
+                </div>
+                <div className="w-full p-5">{viewProvider()}</div>
               </div>
-            </div>
-          </section>
+            </section>
 
-          <section className="w-[90%] overflow-x-auto mx-auto border h-[700px] pb-3 mt-10 rounded-xl">
-            <div className="min-w-[900px] w-full">
-              <div className="bg-[#0e4884] w-full h-14 rounded-t-xl flex items-center ps-3">
-                <Button
-                  onClick={() => setSelectedView("project_table")}
-                  variant="outline"
-                  className={`font-bold mx-3 bg-[#0c3f74] text-white ${
-                    selectedView == "project_table" ? "bg-white text-black" : ""
-                  }`}
-                >
-                  Project Table
-                </Button>
-                <Button
-                  onClick={() => setSelectedView("district_table")}
-                  variant="outline"
-                  className={`font-bold mx-3 bg-[#0c3f74] text-white ${
-                    selectedView == "district_table"
-                      ? "bg-white text-black"
-                      : ""
-                  }`}
-                >
-                  District Table
-                </Button>
-
-                <Button
-                  onClick={() => setSelectedView("balance_units")}
-                  variant="outline"
-                  className={`font-bold mx-3 bg-[#0c3f74] text-white ${
-                    selectedView == "balance_units" ? "bg-white text-black" : ""
-                  }`}
-                >
-                  Balance Units
-                </Button>
-                <Button
-                  onClick={() => setSelectedView("map")}
-                  variant="outline"
-                  className={`font-bold mx-3 bg-[#0c3f74] text-white ${
-                    selectedView == "map" ? "bg-white text-black" : ""
-                  }`}
-                >
-                  Map
-                </Button>
-                <Button
-                  onClick={() => setSelectedView("pie")}
-                  variant="outline"
-                  className={`font-bold mx-3 bg-[#0c3f74] text-white ${
-                    selectedView == "pie" ? "bg-white text-black" : ""
-                  }`}
-                >
-                  Pie Chart
-                </Button>
+            <section className="p-7 relative  bg-[url('/building-banner.jpeg')]  bg-cover bg-center before:bg-blue-400 bg-no-repeat w-[90%] mx-auto h-52 border rounded-xl mt-10">
+              <div className="lg:w-2/3 md:2/3 w-full">
+                <h2 className="lg:text-3xl md:text-2xl text-xl text-white z-20 opacity-100">
+                  Discover your dream condo rental and make it your home
+                </h2>
               </div>
-              <div className="w-full p-5">{viewProvider()}</div>
-            </div>
-          </section>
-
-          <section className="p-7 relative  bg-[url('/building-banner.jpeg')]  bg-cover bg-center before:bg-blue-400 bg-no-repeat w-[90%] mx-auto h-52 border rounded-xl mt-10">
-            <div className="lg:w-2/3 md:2/3 w-full">
-              <h2 className="lg:text-3xl md:text-2xl text-xl text-white z-20 opacity-100">
-                Discover your dream condo rental and make it your home
-              </h2>
-            </div>
-            <div className="text-[#0e4884] font-bold cursor-pointer h-9 w-28 flex justify-center bg-white items-center mt-5 rounded-md text-sm shadow-lg">
-              Get Started
-            </div>
-          </section>
-        </main>
+              <div className="text-[#0e4884] font-bold cursor-pointer h-9 w-28 flex justify-center bg-white items-center mt-5 rounded-md text-sm shadow-lg">
+                Get Started
+              </div>
+            </section>
+          </main>
+        </div>
       </div>
     </div>
   );
