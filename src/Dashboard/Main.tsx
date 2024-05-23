@@ -151,8 +151,8 @@ export default function Dashboard() {
               </div>
             </section>
 
-            <section className="lg:w-[90%] md:w-[90%] w-full overflow-x-auto mx-auto border h-[700px] pb-3 mt-10 rounded-xl">
-              <div className="min-w-[900px] w-full">
+            <section className="lg:w-[90%] md:w-[90%] w-full overflow-x-auto overflow-y-hidden mx-auto border max-h-[700px] pb-3 mt-10 rounded-xl">
+              <div className="min-w-[1200px] w-full">
                 <div className="bg-[#0e4884] w-full h-14 rounded-t-xl flex items-center ps-3">
                   <Button
                     onClick={() => setSelectedView("project_table")}
@@ -207,7 +207,9 @@ export default function Dashboard() {
                     Pie Chart
                   </Button>
                 </div>
-                <div className="w-full p-5">{viewProvider()}</div>
+                <div className="w-full p-5 overflow-y-auto">
+                  {viewProvider()}
+                </div>
               </div>
             </section>
 
