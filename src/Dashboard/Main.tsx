@@ -99,15 +99,8 @@ export default function Dashboard() {
 
   return (
     <div className="h-full w-full flex justify-center items-center">
-      {isMobile && (
-        <div className="h-48 w-full">
-          <div className="fixed top-0 right-0 opacity-50 z-50">
-            <IoMenu size={40} onClick={sideBarHandler} />
-          </div>
-        </div>
-      )}
-      <div className="h-full w-full flex justify-center items-center p-4">
-        <div className="w-[100%] flex h-[100%]">
+      <div className="h-full w-full flex justify-center items-center lg:p-2">
+        <div className="w-[98%] flex h-[98%]">
           <Sidebar
             selectedView={selectedView}
             setSelectedView={setSelectedView}
@@ -117,19 +110,26 @@ export default function Dashboard() {
           />
           <main
             id="main-container"
-            className="w-full rounded-r-3xl ms-auto border overflow-auto lg:p-2 shadow-md"
+            className="w-full pb-5 rounded-r-[40px] px-1 rounded-l-[40px] lg:rounded-l-none md:rounded-l-none ms-auto border h-full overflow-auto lg:p-2 shadow-md"
           >
             <div className="relative h-14">
-              <Button
-                variant="default"
-                className="me-2 bg-[#0e4884] hover:bg-[#0e4884] absolute right-1 top-5"
-                onClick={handleReset}
-              >
-                Reset
-              </Button>
+              <div className="flex justify-end px-2 h-8 mt-3">
+                <Button
+                  variant="default"
+                  className="me-2 bg-[#0c3f74] font-bold hover:bg-[#0c3f74]"
+                  onClick={handleReset}
+                >
+                  Reset
+                </Button>
+                {isMobile && (
+                  <div className="opacity-50">
+                    <IoMenu size={40} onClick={sideBarHandler} />
+                  </div>
+                )}
+              </div>
             </div>
             <section>
-              <div className="filter-slider lg:h-48 h-[400px] mt-10 grid lg:grid-cols-4 lg:gap-4 md:gap-2 gap-3 mx-auto grid-cols-2 lg:w-[90%] md:w-[90%] w-[98%] p-2 rounded-md">
+              <div className="filter-slider lg:h-48 h-[400px] mt-5 grid lg:grid-cols-4 lg:gap-4 md:gap-2 gap-3 mx-auto grid-cols-2 lg:w-[90%] md:w-[90%] w-[100%] rounded-md">
                 <FilterBox
                   select={<Districts />}
                   name="District"
@@ -151,7 +151,7 @@ export default function Dashboard() {
               </div>
             </section>
 
-            <section className="w-[90%] overflow-x-auto mx-auto border h-[700px] pb-3 mt-10 rounded-xl">
+            <section className="lg:w-[90%] md:w-[90%] w-full overflow-x-auto mx-auto border h-[700px] pb-3 mt-10 rounded-xl">
               <div className="min-w-[900px] w-full">
                 <div className="bg-[#0e4884] w-full h-14 rounded-t-xl flex items-center ps-3">
                   <Button
@@ -211,7 +211,7 @@ export default function Dashboard() {
               </div>
             </section>
 
-            <section className="p-7 relative  bg-[url('/building-banner.jpeg')]  bg-cover bg-center before:bg-blue-400 bg-no-repeat w-[90%] mx-auto h-52 border rounded-xl mt-10">
+            <section className="p-7 relative mx-auto bg-[url('/building-banner.jpeg')]  bg-cover bg-center before:bg-blue-400 bg-no-repeat lg:w-[90%] md:w-[90%] w-[100%] h-52 border rounded-xl mt-10">
               <div className="lg:w-2/3 md:2/3 w-full">
                 <h2 className="lg:text-3xl md:text-2xl text-xl text-white z-20 opacity-100">
                   Discover your dream condo rental and make it your home

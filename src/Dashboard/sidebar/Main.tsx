@@ -29,12 +29,12 @@ export default function Sidebar({
             aria-label="Sidebar"
           >
             <div className="h-full rounded-l-3xl overflow-y-auto  bg-[#0e4884] text-white">
-              <div className="my-5">
+              <div className="my-1">
                 <Image
                   src="/logo.png"
                   alt="logo"
-                  width={120}
-                  height={120}
+                  width={220}
+                  height={220}
                   className="mx-auto"
                 />
               </div>
