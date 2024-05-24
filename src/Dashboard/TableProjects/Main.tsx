@@ -20,7 +20,10 @@ export default function TableProjects() {
   const [sortConfig, setSortConfig] = useState<{
     key: string;
     direction: string;
-  } | null>(null);
+  } | null>({
+    key: "project",
+    direction: "ascending",
+  });
 
   useEffect(() => {
     let filteredData = data;
@@ -39,7 +42,15 @@ export default function TableProjects() {
         (item) => item.marketSegment === selectedType
       );
     }
-
+    filteredData.sort((a, b) => {
+      if (a.project < b.project) {
+        return -1;
+      }
+      if (a.project > b.project) {
+        return 1;
+      }
+      return 0;
+    });
     setListings(filteredData);
   }, [selectedDistrict, selectedProject, selectedType]);
 
@@ -212,97 +223,117 @@ export default function TableProjects() {
               <div className="overflow-hidden">
                 <div className="min-w-full text-left text-xs font-light overflow-hidden">
                   <div className="border-b font-medium mt-3 dark:border-neutral-500 grid gap-1 grid-cols-[8%_8%_8%_8%_8%_8%_8%_8%_8%_8%_8%_8%_8%] text-xs">
-                    <div className="px-1 text-xs flex">
-                      Project
-                      <span className="flex items-center ms-2">
-                        <FaSort
-                          className="hover:cursor-pointer"
-                          onClick={() => handleSort("project")}
-                        />
-                      </span>
+                    <div className="px-1 text-xs">
+                      <div className="flex">
+                        Project
+                        <span className="flex items-center ms-2">
+                          <FaSort
+                            className="hover:cursor-pointer"
+                            onClick={() => handleSort("project")}
+                          />
+                        </span>
+                      </div>
                     </div>
-                    <div className="px-1 text-xs flex">
-                      Unit Avail
-                      <span className="flex items-center ms-2 mx-auto">
-                        <FaSort
-                          className="hover:cursor-pointer"
-                          onClick={() => handleSort("unitsAvail")}
-                        />
-                      </span>
+                    <div className="px-1 text-xs ">
+                      <div className="flex">
+                        Unit Avail
+                        <span className="flex items-center ms-2">
+                          <FaSort
+                            className="hover:cursor-pointer"
+                            onClick={() => handleSort("unitsAvail")}
+                          />
+                        </span>
+                      </div>
                     </div>
-                    <div className="px-1 text-xs flex">
-                      LaunchtoDate
-                      <span className="flex items-center ms-2 me-auto">
-                        <FaSort
-                          className="hover:cursor-pointer"
-                          onClick={() => handleSort("launchedToDate")}
-                        />
-                      </span>
+                    <div className="px-1 text-xs ">
+                      <div className="flex">
+                        LaunchtoDate
+                        <span className="flex items-center ms-2 me-auto">
+                          <FaSort
+                            className="hover:cursor-pointer"
+                            onClick={() => handleSort("launchedToDate")}
+                          />
+                        </span>
+                      </div>
                     </div>
                     <div className="px-1 text-xs">Region</div>
-                    <div className="px-1 text-xs flex">
-                      Units Sold
-                      <span className="flex items-center ms-2 me-auto">
-                        <FaSort
-                          className="hover:cursor-pointer"
-                          onClick={() => handleSort("unitsSold")}
-                        />
-                      </span>
+                    <div className="px-1 text-xs ">
+                      <div className="flex">
+                        Units Sold
+                        <span className="flex items-center ms-2 me-auto">
+                          <FaSort
+                            className="hover:cursor-pointer"
+                            onClick={() => handleSort("unitsSold")}
+                          />
+                        </span>
+                      </div>
                     </div>
-                    <div className="px-1 text-xs flex">
-                      Balance Units
-                      <span className="flex items-center ms-2 me-auto">
-                        <FaSort
-                          className="hover:cursor-pointer"
-                          onClick={() => handleSort("balanceUnits")}
-                        />
-                      </span>
+                    <div className="px-1 text-xs">
+                      <div className="flex">
+                        Balance Units
+                        <span className="flex items-center ms-2 me-auto">
+                          <FaSort
+                            className="hover:cursor-pointer"
+                            onClick={() => handleSort("balanceUnits")}
+                          />
+                        </span>
+                      </div>
                     </div>
-                    <div className="px-1 text-xs flex">
-                      Median Price ($psf)
-                      <span className="flex items-center ms-2 me-auto">
-                        <FaSort
-                          className="hover:cursor-pointer"
-                          onClick={() => handleSort("medianPrice")}
-                        />
-                      </span>
+                    <div className="px-1 text-xs">
+                      <div className="flex">
+                        Median Price ($psf)
+                        <span className="flex items-center ms-2 me-auto">
+                          <FaSort
+                            className="hover:cursor-pointer"
+                            onClick={() => handleSort("medianPrice")}
+                          />
+                        </span>
+                      </div>
                     </div>
-                    <div className="px-1 text-xs flex">
-                      Lowest Price($psf)
-                      <span className="flex items-center ms-2 me-auto">
-                        <FaSort
-                          className="hover:cursor-pointer"
-                          onClick={() => handleSort("lowestPrice")}
-                        />
-                      </span>
+                    <div className="px-1 text-xs">
+                      <div className="flex">
+                        Lowest Price($psf)
+                        <span className="flex items-center ms-2 me-auto">
+                          <FaSort
+                            className="hover:cursor-pointer"
+                            onClick={() => handleSort("lowestPrice")}
+                          />
+                        </span>
+                      </div>
                     </div>
-                    <div className="px-1 text-xs flex">
-                      Highest Price($psf)
-                      <span className="flex items-center ms-2 me-auto">
-                        <FaSort
-                          className="hover:cursor-pointer"
-                          onClick={() => handleSort("highestPrice")}
-                        />
-                      </span>
+                    <div className="px-1 text-xs">
+                      <div className="flex">
+                        Highest Price($psf)
+                        <span className="flex items-center ms-2 me-auto">
+                          <FaSort
+                            className="hover:cursor-pointer"
+                            onClick={() => handleSort("highestPrice")}
+                          />
+                        </span>
+                      </div>
                     </div>
-                    <div className="px-1 text-xs flex">Latest Month</div>
-                    <div className="px-1 text-xs flex">
-                      Launched In Month
-                      <span className="flex items-center ms-2 me-auto">
-                        <FaSort
-                          className="hover:cursor-pointer"
-                          onClick={() => handleSort("launchedInMonth")}
-                        />
-                      </span>
+                    <div className="px-1 text-xs">Latest Month</div>
+                    <div className="px-1 text-xs">
+                      <div className="flex">
+                        Launched In Month
+                        <span className="flex items-center ms-2 me-auto">
+                          <FaSort
+                            className="hover:cursor-pointer"
+                            onClick={() => handleSort("launchedInMonth")}
+                          />
+                        </span>
+                      </div>
                     </div>
-                    <div className="px-1 text-xs flex">
-                      Sold In month
-                      <span className="flex items-center ms-2 me-auto">
-                        <FaSort
-                          className="hover:cursor-pointer"
-                          onClick={() => handleSort("soldInMonth")}
-                        />
-                      </span>
+                    <div className="px-1 text-xs">
+                      <div className="flex">
+                        Sold In month
+                        <span className="flex items-center ms-2 me-auto">
+                          <FaSort
+                            className="hover:cursor-pointer"
+                            onClick={() => handleSort("soldInMonth")}
+                          />
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <div className="overflow-hidden mt-5">

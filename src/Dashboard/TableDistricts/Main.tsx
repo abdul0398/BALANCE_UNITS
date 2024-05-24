@@ -13,7 +13,10 @@ export default function TableDistricts() {
   const [sortConfig, setSortConfig] = useState<{
     key: string;
     direction: string;
-  } | null>(null);
+  } | null>({
+    key: "district",
+    direction: "ascending",
+  });
 
   useEffect(() => {
     let filteredData = data;
@@ -117,6 +120,17 @@ export default function TableDistricts() {
       };
     });
 
+    districtData.sort((a: any, b: any) => {
+      const districtA = Object.keys(a)[0];
+      const districtB = Object.keys(b)[0];
+      if (districtA < districtB) {
+        return -1;
+      }
+      if (districtA > districtB) {
+        return 1;
+      }
+      return 0;
+    });
     setListings(districtData);
   }, [selectedDistrict, selectedProject, selectedType]);
 

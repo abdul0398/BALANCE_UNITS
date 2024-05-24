@@ -110,7 +110,7 @@ export default function Dashboard() {
           />
           <main
             id="main-container"
-            className="w-full pb-5 rounded-r-[40px] px-1 rounded-l-[40px] lg:rounded-l-none md:rounded-l-none ms-auto border h-full overflow-auto lg:p-2 shadow-md"
+            className="w-full pb-5 rounded-r-[40px] px-1 no-scrollbar rounded-l-[40px] lg:rounded-l-none md:rounded-l-none ms-auto border h-full overflow-auto lg:p-2 shadow-md"
           >
             <div className="relative h-14">
               <div className="flex justify-end px-2 h-8 mt-3">
