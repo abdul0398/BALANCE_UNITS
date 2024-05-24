@@ -1,8 +1,9 @@
 "use client";
 import { MyContext } from "@/context/context";
-import Dashboard from "../Dashboard/Main";
 import { useState } from "react";
 import { PropertyTypeEnum } from "@/types/context";
+import dynamic from "next/dynamic";
+const Dashboard = dynamic(() => import("@/Dashboard/Main"), { ssr: false });
 
 export default function Home() {
   const [selectedProject, setSelectedProject] = useState<string>("");

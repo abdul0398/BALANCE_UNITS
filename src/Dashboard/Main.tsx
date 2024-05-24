@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import MapComponent from "./Map/Main";
 import TableProjects from "./TableProjects/Main";
@@ -12,10 +11,8 @@ import { useContext, useState } from "react";
 import FilterBox from "@/ui/filterbox";
 import { MyContext } from "@/context/context";
 import { FaStreetView } from "react-icons/fa";
-import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { SiCodeblocks } from "react-icons/si";
 import { PropertyTypeEnum } from "@/types/context";
-import { useMediaQuery } from "react-responsive";
 import { IoMenu } from "react-icons/io5";
 
 import dynamic from "next/dynamic";
@@ -27,8 +24,7 @@ const PropertyType = dynamic(() => import("./PropertyType/Main"), {
 
 export default function Dashboard() {
   const [selectedView, setSelectedView] = useState<string>("project_table");
-  const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
-  const [isOpen, setIsOpen] = useState<boolean>(!isMobile);
+  // const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
   const {
     selectedDistrict,
     selectedProject,
@@ -37,29 +33,8 @@ export default function Dashboard() {
     setSelectedType,
     selectedType,
   } = useContext(MyContext);
-
-  const projects = Object.keys(projectRelation).filter((project) => {
-    const isAvailable =
-      projectRelation[project][projectRelation[project].length - 1].unitsAvail -
-        projectRelation[project][projectRelation[project].length - 1]
-          .soldToDate !=
-      0;
-    return isAvailable;
-  });
-  const demoData = {
-    name: "root",
-    children: projects.map((project) => {
-      return {
-        name: project,
-        value:
-          projectRelation[project][projectRelation[project].length - 1]
-            .unitsAvail -
-          projectRelation[project][projectRelation[project].length - 1]
-            .soldToDate,
-      };
-    }),
-    value: 100,
-  };
+  const isMobile = window.innerWidth < 600;
+  const [isOpen, setIsOpen] = useState<boolean>(!isMobile);
 
   const viewProvider = () => {
     switch (selectedView) {
@@ -78,6 +53,7 @@ export default function Dashboard() {
     }
   };
 
+  console.log(isOpen);
   const handleReset = () => {
     setSelectedType(PropertyTypeEnum.ALL);
     setSelectedDistrict("");
@@ -85,16 +61,6 @@ export default function Dashboard() {
   };
   const sideBarHandler = () => {
     setIsOpen(!isOpen);
-  };
-
-  const slideLeft = () => {
-    const slider = document.querySelector(".filter-slider") as HTMLElement;
-    slider.scrollLeft += 400;
-  };
-
-  const slideRight = () => {
-    const slider = document.querySelector(".filter-slider") as HTMLElement;
-    slider.scrollLeft -= 400;
   };
 
   return (
